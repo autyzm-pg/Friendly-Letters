@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.pg.mikszo.friendlyletters"
     android:sharedUserId="com.pg.mikszo.friendlyletters">
-
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -12,10 +8,12 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:requestLegacyExternalStorage="true"
         android:theme="@style/AppTheme">
         <activity
             android:name=".activity.GameSplashActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="true"
             android:icon="@mipmap/ic_icon_game"
             android:label="@string/app_game_activity_name"
             android:screenOrientation="sensorLandscape"
@@ -30,6 +28,7 @@
         <activity
             android:name=".activity.SettingsSplashActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="true"
             android:icon="@mipmap/ic_icon_settings"
             android:label="@string/app_setting_activity_name"
             android:screenOrientation="sensorLandscape"
@@ -44,29 +43,35 @@
         <activity
             android:name=".activity.GameStartActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="false"
             android:screenOrientation="sensorLandscape"
             android:taskAffinity="com.pg.mikszo.startgameactivity"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
         <activity
             android:name=".activity.GameMainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="false"
             android:screenOrientation="sensorLandscape"
             android:taskAffinity="com.pg.mikszo.gameactivity"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
         <activity
             android:name=".activity.SettingsMainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="false"
             android:screenOrientation="sensorLandscape"
             android:taskAffinity="com.pg.mikszo.settingsactivity"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
         <activity
             android:name=".activity.SettingsTabsActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="false"
             android:screenOrientation="sensorLandscape"
             android:taskAffinity="com.pg.mikszo.settingstabsactivity"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
-        <activity android:name=".activity.GameTestReportActivity"
+        <activity
+            android:name=".activity.GameTestReportActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="false"
             android:screenOrientation="sensorLandscape"
             android:taskAffinity="com.pg.mikszo.gamereportactivity"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />

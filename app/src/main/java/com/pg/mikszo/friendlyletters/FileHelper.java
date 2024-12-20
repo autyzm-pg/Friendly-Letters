@@ -35,9 +35,7 @@ import java.util.regex.Pattern;
 public class FileHelper {
 
     public static File getAppFolderPath(Context context) {
-        File root = Environment.getExternalStorageDirectory();
-        return new File(root.getAbsolutePath() + File.separator +
-                context.getString(R.string.resources_dir_name));
+        return new File(context.getFilesDir(), context.getString(R.string.resources_dir_name));
     }
 
     public static boolean isAppFolderExists(Context context) {

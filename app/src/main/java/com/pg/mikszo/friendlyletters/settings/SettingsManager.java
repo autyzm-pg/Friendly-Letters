@@ -48,7 +48,7 @@ public class SettingsManager {
         }
 
         Configuration[] allConfigurations = getConfigurationsFromJSON();
-        if (allConfigurations.length == 0) {
+        if (allConfigurations == null || allConfigurations.length == 0) {
             FileHelper.copyDefaultFileWithConfigurations(context);
             allConfigurations = getConfigurationsFromJSON();
         }
@@ -97,7 +97,7 @@ public class SettingsManager {
         try {
             InputStream is = context.getAssets().open(
                     context.getString(R.string.file_with_configurations_dir_name)
-                    + File.separator + context.getString(R.string.file_with_configurations_file_name));
+                            + File.separator + context.getString(R.string.file_with_configurations_file_name));
             int size = is.available();
             byte[] buffer = new byte[size];
             is.read(buffer);
@@ -157,7 +157,11 @@ public class SettingsManager {
     private String readConfigurationsContent() {
         String json = null;
         try {
-            InputStream is = new FileInputStream(FileHelper.getFileWithConfigurations(context));
+            File file = FileHelper.getFileWithConfigurations(context);
+            if (!file.exists()) {
+                return null;
+            }
+            InputStream is = new FileInputStream(file);
             int size = is.available();
             byte[] buffer = new byte[size];
             is.read(buffer);
