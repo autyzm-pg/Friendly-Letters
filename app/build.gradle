@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 
 def keystoreProperties = new Properties()
 def isGithubActions = System.getenv("GITHUB_ACTIONS") == "true"
+def githubBuildNumber = System.getenv("GITHUB_RUN_NUMBER")
 def keystorePropertiesFile = rootProject.file('keystore.properties')
 
 if (keystorePropertiesFile.exists()) {
@@ -14,9 +15,14 @@ android {
         minSdkVersion 16
         compileSdkVersion = 35
         targetSdkVersion 35
-        versionCode 5
-        versionName "1.0.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        def majorCodeEnv = System.getenv("MAJOR_COUNTER") ? System.getenv("MAJOR_COUNTER").toInteger() : 1
+        def minorCodeEnv = System.getenv("MINOR_COUNTER") ? System.getenv("MINOR_COUNTER").toInteger() : 0
+        def patchCodeEnv = System.getenv("PATCH_COUNTER") ? System.getenv("PATCH_COUNTER").toInteger() : 0
+
+        versionCode isGithubActions ? (githubBuildNumber ? githubBuildNumber.toInteger() : 1) : patchCodeEnv
+        versionName "${majorCodeEnv}.${minorCodeEnv}.${patchCodeEnv}"
     }
     signingConfigs {
         release {
