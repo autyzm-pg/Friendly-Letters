@@ -14,7 +14,7 @@ on:
       patch_counter:
         description: "App version patch counter"
         required: true
-        default: "6"
+        default: "4"
 
 jobs:
   Build_and_Deploy:
@@ -37,9 +37,6 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Install npm dependency
-        run: yarn install
-
       - name: Setup Android SDK
         uses: android-actions/setup-android@v2
 
@@ -50,11 +47,11 @@ jobs:
         env:
           KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
         run: |
-          echo "$KEYSTORE_BASE64" | base64 -d > android/app/friendly_plans_upload.keystore
+          echo "$KEYSTORE_BASE64" | base64 -d > android/app/friendly_letters_upload.jks
 
       - name: Build release AAB
         env:
-          KEYSTORE_PATH: ./friendly_plans_upload.keystore
+          KEYSTORE_PATH: ./friendly_letters_upload.keystore
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
