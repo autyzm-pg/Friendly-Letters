@@ -59,7 +59,7 @@ jobs:
           MINOR_COUNTER: ${{ github.event.inputs.minor_counter }}
           PATCH_COUNTER: ${{ github.event.inputs.patch_counter }}
         run: |
-          ./gradlew assembleRelease
+          ./gradlew bundleRelease
 
       - name: Upload release AAB
         uses: actions/upload-artifact@v4
