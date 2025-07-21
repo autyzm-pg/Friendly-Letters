@@ -1,4 +1,4 @@
-name: Build and deploy apk
+name: Create bundle artifact
 
 on:
   workflow_dispatch:
