@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 
 def keystoreProperties = new Properties()
+def isGithubActions = System.getenv("GITHUB_ACTIONS") == "true"
 def keystorePropertiesFile = rootProject.file('keystore.properties')
 
 if (keystorePropertiesFile.exists()) {
@@ -19,12 +20,11 @@ android {
     }
     signingConfigs {
         release {
-            def keystorePath = System.getenv("KEYSTORE_PATH")
-
+            def keystorePath = isGithubActions ? System.getenv("KEYSTORE_PATH") : keystoreProperties.getProperty("KEYSTORE_PATH")
             storeFile keystorePath ? file(keystorePath) : null
-            storePassword System.getenv("KEYSTORE_PASSWORD")
-            keyAlias System.getenv("KEY_ALIAS")
-            keyPassword System.getenv("KEY_PASSWORD")
+            storePassword isGithubActions ? System.getenv("KEYSTORE_PASSWORD") : keystoreProperties.getProperty("KEYSTORE_PASSWORD")
+            keyAlias isGithubActions ? System.getenv("KEY_ALIAS") : keystoreProperties.getProperty("KEY_ALIAS")
+            keyPassword isGithubActions ? System.getenv("KEY_PASSWORD") : keystoreProperties.getProperty("KEY_PASSWORD")
         }
     }
     buildTypes {

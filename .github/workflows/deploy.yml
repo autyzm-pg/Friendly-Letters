@@ -51,7 +51,7 @@ jobs:
 
       - name: Build release AAB
         env:
-          KEYSTORE_PATH: app/friendly_letters_upload.keystore
+          KEYSTORE_PATH: friendly_letters_upload.jks
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
