@@ -51,14 +51,13 @@ jobs:
 
       - name: Build release AAB
         env:
-          KEYSTORE_PATH: ./friendly_letters_upload.keystore
+          KEYSTORE_PATH: app/friendly_letters_upload.keystore
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
           MAJOR_COUNTER: ${{ github.event.inputs.major_counter }}
           MINOR_COUNTER: ${{ github.event.inputs.minor_counter }}
           PATCH_COUNTER: ${{ github.event.inputs.patch_counter }}
-        working-directory: ./android
         run: |
           ./gradlew assembleRelease
 
