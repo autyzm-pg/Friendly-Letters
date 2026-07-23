@@ -254,8 +254,8 @@ public class GameMainActivity extends BaseActivity {
     }
 
     @Override
-    public void onBackPressed() {
-        // Game has disable onBackPressed() function
+    protected void handleBackNavigation() {
+        // Game has disabled back navigation
     }
 
     @Override

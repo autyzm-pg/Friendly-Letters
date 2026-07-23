@@ -85,7 +85,7 @@ public class GameTestReportActivity extends BaseActivity {
     }
 
     @Override
-    public void onBackPressed() {
+    protected void handleBackNavigation() {
         runGameStartActivity();
     }
 

@@ -49,12 +49,12 @@ public class SettingsTabsActivity extends BaseActivity {
     }
 
     @Override
-    public void onBackPressed() {
+    protected void handleBackNavigation() {
         if (selectedTab == availableTabs.addMaterial) {
             selectedTab = availableTabs.material;
             new TabMenuMaterial(this, settingsManager, configurationID);
         } else {
-            super.onBackPressed();
+            super.handleBackNavigation();
         }
     }
 
