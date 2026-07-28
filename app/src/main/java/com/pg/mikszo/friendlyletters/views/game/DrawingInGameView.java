@@ -17,9 +17,11 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.pg.mikszo.friendlyletters.R;
 import com.pg.mikszo.friendlyletters.logger.LoggerCSV;
 import com.pg.mikszo.friendlyletters.settings.Configuration;
 import com.pg.mikszo.friendlyletters.settings.SettingsManager;
@@ -130,6 +132,51 @@ public class DrawingInGameView extends CanvasView {
     public void cleanScreen() {
         super.cleanScreen();
         startedFromStartPointOnMark = false;
+    }
+
+    @Override
+    protected void onSizeChanged(int w, int h, int oldW, int oldH) {
+        super.onSizeChanged(w, h, oldW, oldH);
+        if (w == 0 || h == 0) {
+            return;
+        }
+
+        boolean hadGeometry = oldW > 0 && oldH > 0 && (backgroundImageRight - backgroundImageLeft) > 0;
+
+        int top = (int) (h * 0.1);
+        // The square material image is sized off height, which assumes a landscape view
+        // (width > height); clamp to the actual width so a portrait-shaped view (e.g. a
+        // large-screen device ignoring the requested landscape orientation) can't compute
+        // bounds wider than the view itself.
+        int imageSize = Math.min((int) (h * 0.95) - top, w);
+        int bottom = top + imageSize;
+        int left = (w / 2) - (imageSize / 2);
+        int right = left + imageSize;
+
+        setBackgroundImageDimension(left, top, right, bottom);
+
+        TypedValue typedValue = new TypedValue();
+        getResources().getValue(R.dimen.game_track_width_relative_to_size_of_field, typedValue, true);
+        setStrokeWidth(imageSize * typedValue.getFloat());
+        setRadiusCursor(imageSize * typedValue.getFloat());
+
+        if (materialImage != null) {
+            materialImage.setBounds(left, top, right, bottom);
+        }
+
+        if (hadGeometry) {
+            // The already-drawn trace is in pixel coordinates from the old layout, so on a real
+            // resize (e.g. rotation) it no longer lines up with the repositioned letter - clear
+            // it instead of leaving it rendered in the wrong place until the pause-reset timer
+            // gets to it.
+            cleanScreen();
+
+            // Background pixel count is tied to the material image's pixel size, so it needs
+            // recomputing whenever a real resize changes that size.
+            if (backgroundImagePixels >= 0) {
+                analyzeBackgroundPixels();
+            }
+        }
     }
 
     public void analyzeBackgroundPixels() {
